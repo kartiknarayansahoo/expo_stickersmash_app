@@ -1,0 +1,56 @@
+import { Image } from 'expo-image';
+import React, { useState } from 'react';
+import { FlatList, ImageSourcePropType, Pressable, StyleSheet } from 'react-native';
+
+type Props = {
+    onSelect: (item: ImageSourcePropType) => void;
+    onCloseModal: () => void;
+}
+
+
+const EmojiList = ({ onSelect, onCloseModal }: Props) => {
+    const [emoji] = useState<ImageSourcePropType[]>([
+        require("../assets/images/emoji1.png"),
+        require("../assets/images/emoji2.png"),
+        require("../assets/images/emoji3.png"),
+        require("../assets/images/emoji4.png"),
+        require("../assets/images/emoji5.png"),
+        require("../assets/images/emoji6.png"),
+    ])
+
+    return (
+        <FlatList
+            horizontal={true}
+            data={emoji}
+            contentContainerStyle={styles.listContainer}
+            renderItem={({ item, index }) => {
+                return <Pressable
+                    onPress={() => {
+                        onSelect(item);
+                        onCloseModal();
+                    }}>
+                    <Image source={item} key={index} style={styles.image}></Image>
+                </Pressable>
+            }}
+
+        ></FlatList>
+    )
+}
+
+export default EmojiList
+
+const styles = StyleSheet.create({
+    image: {
+        height: 100,
+        width: 100,
+        marginRight: 10
+    },
+    listContainer: {
+        borderTopRightRadius: 10,
+        borderTopLeftRadius: 10,
+        paddingHorizontal: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    }
+})
